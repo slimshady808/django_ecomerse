@@ -1,1 +1,1 @@
-# django_ecomerse
+# django_ecomerse APP
