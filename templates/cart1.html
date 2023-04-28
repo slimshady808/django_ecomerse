@@ -1,0 +1,70 @@
+
+    {% extends 'base.html' %}
+    {% load static %}
+    {% block title %}shopping cart  {% endblock %}
+    {% block content %}  
+
+
+    {% for item in carts %}
+    <tr>
+        <td>{{ item.product.name }}</td>
+        {% if item.variations.exists %}
+            <td>
+                {% for variation in item.variations.all %}
+                    {{ variation.get_type_display }}: {{ variation.variation_value }}<br>
+                {% endfor %}
+            </td>
+        {% else %}
+            <td>-</td>
+        {% endif %}
+        <td>{{ item.product.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>10</td>
+    </tr>
+{% endfor %}
+
+ 
+    
+    {% endblock %}
+    
+
+
+
+
+
+
+
+
+
+
+
+   
+
+ 
+
+
+  
+  <!--================End Cart Area =================-->
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

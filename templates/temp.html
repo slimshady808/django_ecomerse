@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}category  {% endblock %}
+{% block content %}  
+
+
+
+
+	<!-- ================ category section start ================= -->		  
+  <section class="section-margin--small mb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-5">
+          <div class="sidebar-categories">
+            <div class="head">Browse Categories</div>
+            <ul class="main-categories">
+              <li class="common-filter">
+                <form action="#">
+                  <ul>
+                    {% for category in categories %}
+
+                    <li class="filter-list">
+                      <input class="pixel-radio" type="checkbox" data-filter="category" value="{{category.id}}" id="{{ category.slug }}" name="category"><label for="{{ category.slug }}">
+                        {{ category.name }}<span> ({{ category.products.count }})</span></label></li>
+                    {% endfor %}
+                  </ul>
+                </form>
+              </li>
+            </ul>
+          </div>
+          <div class="sidebar-filter">
+            <div class="top-filter-head">Product Filters</div>
+            <div class="common-filter">
+              <div class="head">Brands</div>
+              <form action="#">
+                {% if brands %}
+                <ul>
+                  {% for brand in brands %}
+                    <li class="filter-list">
+                      <input class="pixel-radio" type="checkbox" data-filter="brand" value="{{brand}}" id="{{ brand }}" name="brand">
+                      <label for="{{ brand }}">{{ brand }} <span></span></label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+                </ul>
+              </form>
+            </div>
+            <div class="common-filter">
+              <div class="head">Color</div>
+              <form action="#">
+           
+                <ul>
+                  {% for color in unique_colors %}
+                  <li class="filter-list">
+                    <input class="pixel-radio" type="checkbox" data-filter="color" value="{{color}}" id="{{color}}" name="color"><label for="{{color}}">
+                      {{color}}<span></span></label></li>
+                 {% endfor %}
+                </ul>
+              </form>
+            </div>
+            <!-- <div class="common-filter">
+              <div class="head">Price</div>
+              <div class="price-range-area">
+                <div id="price-range"></div>
+                <div class="value-wrapper d-flex">
+                  <div class="price">Price:</div>
+                  <span>$</span>
+                  <div id="lower-value"></div>
+                  <div class="to">to</div>
+                  <span>$</span>
+                  <div id="upper-value"></div>
+                </div>
+                <div class="checkbox-filter">
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="price[]" id="price-500-1500" data-filter="price" value="500-1500">
+                    <label for="price-500-1500" class="form-check-label">500 - 1500</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="price[]" id="price-1500-2000" data-filter="price" value="1500-2000">
+                    <label for="price-1500-2000" class="form-check-label">1500 - 2000</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="price[]" id="price-2000-above" data-filter="price" value="2000-above">
+                    <label for="price-2000-above" class="form-check-label">2000 Above</label>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-7">
+          <!-- Start Filter Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+            <div class="sorting">
+              <select>
+                <option value="1">High to Low</option>
+                <option value="1">Low to High</option>
+                
+              </select>
+            </div>
+            <!-- <div class="sorting mr-auto">
+              <select>
+                <option value="1">Show 12</option>
+                <option value="1">Show 12</option>
+                <option value="1">Show 12</option>
+              </select>
+            </div> -->
+            <!-- <div>
+              <div class="input-group filter-bar-search">
+                <input type="text" placeholder="Search">
+                <div class="input-group-append">
+                  <button type="button"><i class="ti-search"></i></button>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="input-group filter-bar-search">
+              <input type="text" class="form-control" placeholder="Search products..." id="search-input">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-secondary search-btn" id="search-button"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            
+            
+          </div>
+          <!-- End Filter Bar -->
+          <!-- Start Best Seller -->
+          <section class="lattest-product-area pb-40 category-list">
+            <div class="row" id="filteredProducts">
+              <p class="ajaxLoader">loading...</p>
+              {% for product in products %}
+              <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card text-center card-product">
+                  <div class="card-product__img">
+                    <img class="card-img" src="{{ product.image.url }}"  alt="{{ product.name }}">
+                    <ul class="card-product__imgOverlay">
+                      <button class="view-product-btn" data-slug="{{ product.slug }}"><i class="ti-search"></i></button>
+
+    
+                   
+                    
+                      <li><button><i class="ti-heart"></i></button></li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <p>{{ product.category.name }}</p>
+                    <h4 class="card-product__title"><a href="#">{{ product.name }}</a></h4>
+                    <p class="card-product__price">&#8377;{{ product.price }}</p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+          </section>
+          <!-- End Best Seller -->
+        </div>
+      </div>
+    </div>
+  </section>
+	<!-- ================ category section end ================= -->		  
+
+
+
+ 
+
+
+  <script>
+    const viewProductBtns = document.querySelectorAll('.view-product-btn');
+    viewProductBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const slug = btn.dataset.slug;
+            window.location.href = `/products/${slug}/`;
+        });
+    });
+</script>
+{% endblock %}
+

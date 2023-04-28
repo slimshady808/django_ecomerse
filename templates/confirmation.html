@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}confirmation {% endblock %}
+{% block content %}  
+  
+  <!--================Order Details Area =================-->
+  <section class="order_details section-margin--small">
+    <div class="container">
+      <p class="text-center billing-alert">Thank you. Your order has been received.</p>
+      <div class="row mb-5">
+        <div class="col-md-6 ">
+          <div class="confirmation-card">
+            <h3 class="billing-title">Order Info</h3>
+            <table class="order-rable">
+              <tr>
+                <td>Order number</td>
+                <td>: {{ order.order_number }}</td>
+              </tr>
+              <tr>
+                <td>Date</td>
+                <td>: {{ order.date_ordered|date:"Y-m-d" }}</td>
+              </tr>
+              <tr>
+                <td>Total</td>
+                <td>: {{ order.total_amount }}</td>
+              </tr>
+              <tr>
+                <td>Payment method</td>
+                <td>:  {{ order.payment_status }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        
+        <div class="col-md-6 ">
+          <div class="confirmation-card">
+            <h3 class="billing-title">Shipping Address</h3>
+            <table class="order-rable">
+              <tr>
+                <td>Name</td>
+                <td>: {{address.name}}</td>
+              </tr>
+              <tr>
+                <td>Mobile</td>
+                <td>: {{address.mobile}}</td>
+              </tr>
+              <tr>
+                <td>House name</td>
+                <td>: {{address.house_name}}</td>
+              </tr>
+              <tr>
+                <td>Street</td>
+                <td>: {{address.street}}</td>
+              </tr>
+              <tr>
+                <td>District</td>
+                <td>: {{address.district}}</td>
+              </tr>
+              <tr>
+                <td>State</td>
+                <td>: {{address.state}}</td>
+              </tr>
+              <tr>
+                <td>PIN code</td>
+                <td>: {{address.pincode}}</td>
+              </tr>
+              
+            </table>
+          </div>
+        </div>
+      </div>
+         <!-- {% for item in order.orderitem_set.all %}
+            <li>{{ item.product.name }} x {{ item.quantity }} = {{ item.get_total }}</li>
+          {% endfor %} -->
+      <div class="order_details_table">
+        <h2>Order Details</h2>
+        <div class="table-responsive">
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+          
+            <tbody>
+              {% for order_item in order.orderitem_set.all %}
+              <tr>
+                <td>
+                  <p>{{ order_item.product.name }}</p>
+                </td>
+                <td>
+                  <h5>x {{ order_item.quantity }}</h5>
+                </td>
+                <td>
+                  <p>${{ order_item.get_total }}</p>
+                </td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td>
+                  <h4>Subtotal</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p>${{ order.get_cart_total }}</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Shipping</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p>Flat rate: ${{ order.shipping_cost }}</p>
+                </td>
+              </tr>
+              {% if order.coupon %}
+              <tr>
+                  <td>
+                      <h4>Coupon ({{ order.coupon.code }})</h4>
+                  </td>
+                  <td>
+                      <h5></h5>
+                  </td>
+                  <td>
+                      <p>- ${{ order.coupon.discount }}</p>
+                  </td>
+              </tr>
+              {% endif %}
+              <tr>
+                <td>
+                  <h4>Total</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <h4>${{ order.total_amount }}</h4>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+         
+          <!-- <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+         
+            <tbody>
+              
+             
+              <tr>
+                <td>
+                  <p>Pixelstore fresh Blackberry</p>
+                </td>
+                <td>
+                  <h5>x 02</h5>
+                </td>
+                <td>
+                  <p>$720.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Subtotal</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p>$2160.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Shipping</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p>Flat rate: $50.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Total</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <h4>$2210.00</h4>
+                </td>
+              </tr>
+            </tbody>
+            
+          </table> -->
+         
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================End Order Details Area =================-->
+
+
+{% endblock %}
+ 

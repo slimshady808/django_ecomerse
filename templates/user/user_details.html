@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %} user dashboard {% endblock %}
+{% block content %}
+
+<div class="container-fluid ">
+  <div class="row ">
+    <nav class="col-md-2 d-none d-md-block bg-white sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item ">
+            <a class="nav-link active" href="{% url 'order_history' %}">
+              Orders
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_address' %}">
+              view address
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_address' %}">
+              Add address
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_whishlist' %}">
+              Whishlist
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="card my-4">
+        <div class="card-body">
+          <h4 class="card-title">Hello, {{ user.username}}</h4>
+          <p class="card-text">"Upgrade your daily routine with our innovative and stylish tech accessories, designed to simplify and enhance your life."</p>
+        </div>
+      </div>
+
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0"> Name</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+             {{user.username}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Email</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+             {{user.email}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            
+          </div>
+          <hr>
+         
+          <hr>
+          <div class="row">
+            <div class="col-sm-12">
+              <a class="btn btn-primary" href="{% url 'user_profile' %}">show profile</a>
+              <a class="btn btn-primary" href="{% url 'edit_user_profile' %}">edit profile</a>
+              <a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+            </div>
+          </div>                   
+        </div>
+      </div>                                 
+    </main>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="list-group">
+                    <a href="{% url 'user_dashboard' %}" class="list-group-item list-group-item-action active">Dashboard</a>
+                    <a href="{% url 'view_profile' %}" class="list-group-item list-group-item-action">View Profile</a>
+                    <a href="{% url 'edit_address' %}" class="list-group-item list-group-item-action">Edit Address</a>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <h2 class="mb-4">Dashboard</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend class="mb-3">Personal Information</legend>
+                        {{ user_form|crispy }}
+                        {{ profile_form|crispy }}
+                    </fieldset>
+                    <fieldset class="mt-4">
+                        <legend class="mb-3">Address</legend>
+                        {{ address_form|crispy }}
+                    </fieldset>
+                    <div class="mt-4">
+                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %} {% endcomment %}
+
+
+
+
+
+

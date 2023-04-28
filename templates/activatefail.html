@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="text-center">Error</h2>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-danger" role="alert">
+            <strong>Oops!</strong> Something went wrong with your forgot password link. It may have expired or been used already. Please try again.
+          </div>
+      
+      <p class="text-center">
+        <a href="{% url 'request-reset-email' %}" class="btn btn-primary">try again</a>
+      </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

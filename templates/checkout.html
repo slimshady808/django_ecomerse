@@ -1,0 +1,240 @@
+  {% extends 'base.html' %}
+  {% load static %}
+  {% block title %}check out1 {% endblock %}
+  {% block content %}    
+    
+    <!--================Checkout Area =================-->
+    <section class="checkout_area section-margin--small">
+      <div class="container">
+        
+          
+          <div class="billing_details">
+              <div class="row">
+                  <div class="col-lg-6">
+                   
+                    <div class="card">
+                      <div class="card-header">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#addAddressForm" aria-expanded="false" aria-controls="addAddressForm">
+                          Add Address
+                        </button>
+                      </div>
+                      <div id="addAddressForm" class="collapse">
+                        <div class="card-body">
+
+
+                          
+                          <form method="POST" action="{% url 'check_out_add_address' %}">
+                            {% csrf_token %}
+                            <div class="form-group row">
+                              <div class="col-md-6">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                              </div>
+                              <div class="col-md-6">
+                                <label for="mobile">Mobile</label>
+                                <input type="text" name="mobile" id="mobile" class="form-control" required>
+                              </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                              <div class="col-md-6">
+                                <label for="house_name">House Name</label>
+                                <input type="text" name="house_name" id="house_name" class="form-control" required>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="street">Street</label>
+                                <input type="text" name="street" id="street" class="form-control" required>
+                              </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                            <div class="col-md-6">
+                              <label for="district">District</label>
+                              <input type="text" name="district" id="district" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                              <label for="state">State</label>
+                              <input type="text" name="state" id="state" class="form-control" required>
+                            </div>
+                          </div>
+
+
+                            
+                            <div class="form-group">
+                              <label for="pincode">Pincode</label>
+                              <input type="text" name="pincode" id="pincode" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </form>
+                          
+                        
+                        
+                        
+                        </div>
+                      </div>
+                    </div>
+                    
+                    
+                      <form method="POST" action="{% url 'create_order' %}"  id="myform">
+                        {% csrf_token %}
+                    
+                     <div class="card">
+                      <div class="card-body">
+                        <h3 class="card-title">Select Address..</h3>
+                        <div class="list-group">
+                          {% with index=0 %}
+                          {% for address in addresses %}
+                          <label class="list-group-item">
+                            <div class="custom-control custom-radio">
+                              <input type="radio" name="address_id" value="{{ address.id }}" id="address{{ address.id }}"
+                                {% if index == 0 %} checked {% endif %} class="custom-control-input">
+                              <label for="address{{ address.id }}" class="custom-control-label">{{ address.name }}, {{ address.mobile }}, {{ address.house_name }},
+                                {{ address.street }}, {{ address.district }}, {{ address.state }}, {{ address.pincode }}</label>
+                            </div>
+                            <a href="{% url 'edit_address' address.id %}" class="btn btn-primary btn-sm float-right">Edit</a>
+                          </label>
+                          {% with index=index|add:1 %}
+                          {% endwith %}
+                          {% endfor %}
+                          {% endwith %}
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="col-lg-6">
+                      <div class="order_box">
+                          <h2>Your Order</h2>
+                          <ul class="list">
+                              <li><a href="#"><h4>Product <span>Total</span></h4></a></li>
+                              {% for cart_item, temp_amount in cart_items_with_temp_amount %}
+                              {% for var in variations %}
+                              <li><a href="#">{{ cart_item.product.name }}-{{var.variation_value}} <span class="middle">x {{ cart_item.quantity }}</span> <span class="last">${{ temp_amount }}</span></a></li>
+                              <input type="hidden" name="var_id" value="{{ var.id }}">
+                             
+                              {% endfor%}
+                              {% endfor%}
+                          </ul>
+                          
+                          <ul class="list list_2">
+                              <li><a href="#">Subtotal <span>${{amount}}</span></a></li>
+                              <li><a href="#">Shipping <span> <td class="text-right">
+                                {% if total_amount >= 1500 %}
+                                <span class="text-success">Free Delivery</span>
+                                {% else %}
+                                $ 70
+                                {% endif %}
+                              </td></span></a></li>
+                              {% if coupon_discount %}
+                              <li><a href="#">Coupon ({{coupon_code}}) <span>-{{ coupon_discount }}</span></a></li>
+                              <input type="hidden" name="coupon_code" value="{{coupon_code}}">
+                              {% endif %}
+                              <li><a href="#">Total <span>${{ total_amount }}</span></a></li>
+                          </ul>
+                          <input type="hidden" name="total_amount" value="{{ total_amount }}">
+                          <input type="hidden" name="shipping_amount" value="{{ shipping_amount }}">
+                          
+                          <input type="hidden" name="payment_status" value='COD'>
+                          <!-- <input type="hidden" name="is_paid" value=False> -->
+                           <!-- Set up a container element for the button -->
+                          <div id="paypal-button-container"></div>
+                          <div class="text-center d-flex">
+                            <button type="submit" class="button button-paypal">C O D</button>
+                            
+                            
+                          </div>
+                          </form>
+                            
+                          
+                          <div class="coupon_area bg-light p-4 rounded">
+                            <h2 class="text-center mb-4">Redeem Coupon</h2>
+                            {% if messages %}
+                            <div class="container">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                      {{ message }}
+                                    </div>
+                                  {% endfor %}
+                                </div>
+                              </div>
+                            </div>
+                          {% endif %}
+                        
+                            <form method="post" class="form-inline d-flex justify-content-center">
+                              {% csrf_token %}
+                              <div class="form-group mx-sm-3 mb-2">
+                                <label for="coupon_code" class="sr-only">Coupon code:</label>
+                                <input type="text" class="form-control" name="coupon_code" id="coupon_code" placeholder="Enter coupon code">
+                              </div>
+                              <button type="submit" class="btn btn-primary mb-2">Redeem</button>
+                            </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+  <!--================End Checkout Area =================-->
+  {% endblock %}
+  {% block payment-gateway %} 
+      <!-- Include the PayPal JavaScript SDK -->
+      <script src="https://www.paypal.com/sdk/js?client-id=AeL74YEMlMgeNA9n3-9Bt2TE5c1n6oKpVB36yyB8qe3FBb6qmIx8TLXMPLIFZtwGWIlPAnQzvs5qmNmA&currency=USD"></script>
+
+      <script>
+        
+              // Render the PayPal button into
+              paypal.Buttons({
+                
+                // set up the transaction 
+                createOrder : function(data,actions){
+                    return actions.order.create({
+                      purchase_units :[{
+                        amount:{
+                            value:'{{ total_amount }}'
+                        }
+                     }]
+                   });
+                },
+
+                onApprove:function(data,actions){
+
+                  return actions.order.capture().then(function(details){
+                    alert('Transaction completed by ');
+                    // document.getElementsByName("is_paid")[0].value = true;
+                    document.getElementsByName("payment_status")[0].value = "PayPal";
+                    
+                    document.getElementById("myform").submit();
+                    console.log('form submitted');
+                  });
+                  
+                }
+
+              }).render('#paypal-button-container');
+          
+
+      </script>
+  {% endblock %}
+
+
+
+                        <!-- <div>
+                        <h3 class="d-block">Select Address..</h3>
+                        <ul>
+                          {% for address in addresses %}
+                            <li>
+                              <input type="radio" name="address_id" value="{{ address.id }}" id="address{{ address.id }}">
+                              <label for="address{{ address.id }}">{{ address.name }}, {{ address.mobile }}, {{ address.house_name }}, {{ address.street }}, {{ address.district }}, {{ address.state }}, {{ address.pincode }}</label>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                    </div> -->

@@ -1,0 +1,117 @@
+<!-- 
+
+ {% load static %}
+
+ {% for product in data %}
+   <div class="col-md-6 col-lg-4 col-xl-3">
+     <div class="card text-center card-product">
+       <div class="card-product__img">
+         <a href="{% url 'view_item' product.slug %}">
+           <img class="card-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+         </a>
+         <ul class="card-product__imgOverlay  d-flex justify-content-between">
+          {{ product.id }}
+          
+          {{product.id}}
+                <button class="btn btn-sm btn-danger add-wishlist" data-product="{{product.id}}"><i class="fa fa-heart"></i></button>
+              
+         </ul>
+       </div>
+       <div class="card-body">
+         <p>{{ product.category.name }}</p>
+         <h4 class="card-product__title"><a href="{% url 'view_item' product.slug %}">{{ product.name }}</a></h4>
+         <p class="card-product__price">&#8377;{{ product.price }}</p>
+       </div>
+     </div>
+   </div>
+ {% endfor %}
+ 
+<script>
+// Add wishlist button click event
+$('.add-wishlist').on('click', function(e) {
+  e.preventDefault();
+  var productId = $(this).data('product');
+
+  $.ajax({
+    url: '/whishlist/',
+    data: { 'product_id': productId },
+    dataType: 'json',
+    success: function(data) {
+      if (data.success) {
+        // Show success message
+        alert('Product added to wishlist');
+      } else {
+        // Show error message
+        alert('Unable to add product to wishlist');
+      }
+    },
+    error: function() {
+      // Show error message
+      alert('Unable to add product to wishlist');
+    }
+  });
+});
+
+
+</script> -->
+
+
+{% load static %}
+
+{% for product in data %}
+  <div class="col-md-6 col-lg-4 col-xl-3">
+    <div class="card text-center card-product">
+      <div class="card-product__img">
+        <a href="{% url 'view_item' product.slug %}">
+          <img class="card-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+        </a>
+        <ul class="card-product__imgOverlay d-flex justify-content-between">
+          {% if user.is_authenticated %}
+          <button class="btn btn-sm btn-danger add-wishlist" data-product="{{product.id}}"><i class="fa fa-heart"></i></button>
+          {% else %}
+          <a href="{% url 'log_in' %}" class="btn btn-sm btn-danger " ><i class="fa fa-heart"></i></a>
+          {% endif %}
+
+           
+          
+        </ul>
+      </div>
+      <div class="card-body">
+        <p>{{ product.category.name }}</p>
+        <h4 class="card-product__title"><a href="{% url 'view_item' product.slug %}">{{ product.name }}</a></h4>
+        <p class="card-product__price">&#8377;{{ product.price }}</p>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<script>
+  $(document).ready(function() {
+    // Add wishlist button click event
+    $('.add-wishlist').on('click', function(e) {
+      e.preventDefault();
+      var productId = $(this).data('product');
+  
+      $.ajax({
+        url: '{% url "add_whishlist" %}',
+        data: { 'product_id': productId },
+        dataType: 'json',
+        success: function(data) {
+          if (data.bool) {
+            // Disable the button and show success message
+            $(this).addClass('disabled').removeAttr('href');
+            console.log('added')
+            alert('Products added to wishlist');
+          } else {
+            // Show error message
+            alert('Unable to add product to wishlist');
+          }
+        },
+        error: function() {
+          // Show error message
+          alert('Unable to add product to wishlist');
+        }
+      });
+    });
+  });
+</script>

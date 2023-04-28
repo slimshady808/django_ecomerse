@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}category  {% endblock %}
+{% block content %}  
+
+
+
+
+	<!-- ================ category section start ================= -->		  
+  <section class="section-margin--small mb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-5">
+          <div class="sidebar-categories">
+            <div class="head">Browse Categories</div>
+            <ul class="main-categories">
+              <li class="common-filter">
+                <form action="#">
+                  <ul>
+                    {% for category in categories %}
+
+                    <li class="filter-list">
+                      <input class="pixel-radio" type="checkbox" data-filter="category" value="{{category.id}}" id="{{ category.slug }}" name="category"><label for="{{ category.slug }}">
+                        {{ category.name }}<span> ({{ category.products.count }})</span></label></li>
+                    {% endfor %}
+                  </ul>
+                </form>
+              </li>
+            </ul>
+          </div>
+          <div class="sidebar-filter">
+            <div class="top-filter-head">Product Filters</div>
+            <div class="common-filter">
+              <div class="head">Brands</div>
+              <form action="#">
+                {% if brands %}
+                <ul>
+                  {% for brand in brands %}
+                    <li class="filter-list">
+                      <input class="pixel-radio" type="checkbox" data-filter="brand" value="{{brand}}" id="{{ brand }}" name="brand">
+                      <label for="{{ brand }}">{{ brand }} <span></span></label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+                </ul>
+              </form>
+            </div>
+            <div class="common-filter">
+              <div class="head">Color</div>
+              <form action="#">
+           
+                <ul>
+                  {% for color in unique_colors %}
+                  <li class="filter-list">
+                    <input class="pixel-radio" type="checkbox" data-filter="color" value="{{color}}" id="{{color}}" name="color"><label for="{{color}}">
+                      {{color}}<span></span></label></li>
+                 {% endfor %}
+                </ul>
+              </form>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-7">
+          <!-- Start Filter Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+           
+            <div class="container">
+              <div class="row">
+                <div class="col-md-9 left-column">
+                  <form>
+                    <div class="input-group filter-bar-search ">
+                      <input type="text" class="form-control" placeholder="Search products..." id="search-input">
+                      <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary search-btn" id="search-button"><i class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-md-2 right-column">
+                  <form>
+                    
+                    <div class="sorting" >
+                      <select id="sort-by">
+                        <option  value="1">High to Low</option>
+                        <option value="2">Low to High</option>
+                      </select>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            
+          </div>
+          <!-- End Filter Bar -->
+          <!-- Start Best Seller -->
+          <section class="lattest-product-area pb-40 category-list">
+            <div class="row" id="filteredProducts">
+              <p class="ajaxLoader">loading...</p>
+              {% for product in products %}
+              <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card text-center card-product">
+                  <div class="card-product__img">
+                    <img class="card-img" src="{{ product.image.url }}"  alt="{{ product.name }}">
+                    <ul class="card-product__imgOverlay">
+                      <button class="view-product-btn" data-slug="{{ product.slug }}"><i class="ti-search"></i></button>
+
+    
+                   
+                    
+                      {% if user.is_authenticated %}
+                <button class="btn btn-sm btn-danger add-wishlist" data-product="{{product.id}}"><i class="fa fa-heart"></i></button>
+                {% else %}
+                
+                <a href="{% url 'log_in' %}" class="btn btn-sm btn-danger " ><i class="fa fa-heart"></i></a>
+                {% endif %}
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <p>{{ product.category.name }}</p>
+                    <h4 class="card-product__title"><a href="#">{{ product.name }}</a></h4>
+                    <p class="card-product__price">&#8377;{{ product.price }}</p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+          </section>
+          <!-- End Best Seller -->
+        </div>
+      </div>
+    </div>
+  </section>
+	<!-- ================ category section end ================= -->		  
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+  
+      {% if products.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1" aria-label="First">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&lsaquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link" aria-hidden="true">&laquo;</span>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link" aria-hidden="true">&lsaquo;</span>
+        </li>
+      {% endif %}
+  
+      {% for i in products.paginator.page_range %}
+        {% if products.number == i %}
+          <li class="page-item active">
+            <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+  
+      {% if products.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&rsaquo;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ products.paginator.num_pages }}" aria-label="Last">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link" aria-hidden="true">&rsaquo;</span>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link" aria-hidden="true">&raquo;</span>
+        </li>
+      {% endif %}
+  
+    </ul>
+  </nav>
+  
+
+
+ 
+
+
+  <script>
+    const viewProductBtns = document.querySelectorAll('.view-product-btn');
+    viewProductBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const slug = btn.dataset.slug;
+            window.location.href = `/products/${slug}/`;
+        });
+    });
+</script>
+{% endblock %}
+

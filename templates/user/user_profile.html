@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}user profile {% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <h2>Profile</h2>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Full Name</td>
+            <td>{{ user_details.full_name }}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ user_details.user.email }}</td>
+          </tr>
+          <tr>
+            <td>Mobile Number</td>
+            <td>{{ user_details.mobile_number }}</td>
+          </tr>
+          <tr>
+            <td>House Name</td>
+            <td>{{ address.house_name }}</td>
+          </tr>
+          <tr>
+            <td>Street</td>
+            <td>{{ address.street }}</td>
+          </tr>
+          <tr>
+            <td>District</td>
+            <td>{{ address.district }}</td>
+          </tr>
+          <tr>
+            <td>State</td>
+            <td>{{ address.state }}</td>
+          </tr>
+          <tr>
+            <td>Pincode</td>
+            <td>{{ address.pincode }}</td>
+           
+          </tr>
+          
+        </tbody>
+      </table>
+      <a class="btn btn-primary" href="{% url 'user_dashboard' %}">back</a>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+
+{% comment %} <h1>User Dashboard</h1>
+<form method="POST">
+  {% csrf_token %}
+  {{ user_form.as_p }}
+  {{ user_details_form.as_p }}
+  {{ address_form.as_p }}
+  <button type="submit">Save</button>
+</form> {% endcomment %}

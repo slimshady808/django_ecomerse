@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}empty cart  {% endblock %}
+{% block content %}  
+
+
+<section class="empty-cart-area">
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-lg-8">
+              <div class="text-center">
+                  <i class="fas fa-shopping-cart fa-5x"></i>
+                  <h3>Your Cart is Empty</h3>
+                  <p>Looks like you haven't added anything to your cart yet.</p>
+                  <a href="#" class="btn btn-primary">Continue Shopping</a>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+{% endblock %}

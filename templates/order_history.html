@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-white sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'order_history' %}">
+              Orders
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_address' %}">
+              View Address
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_address' %}">
+              Add Address
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'view_whishlist' %}">
+              Wishlist
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+     <div class="col-md-10"> 
+   
+
+    {% if orders %}
+        
+        {% for order in orders %}
+        <div class="col-md-10">
+            <div class="card mb-5 ">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0 text-light">Order Number: {{ order.order_number }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        {% for item in order.orderitem_set.all %}
+                            <div class="col-sm-4 mb-3">
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="100">
+                            </div>
+                            
+                            <div class="col-sm-8">
+                                <a href="{% url 'view_item' item.product.slug %}"><h5>{{ item.variation }} </h5></a>
+                                ({{item.quantity}})
+                                <p><strong>Price:</strong> {{ item.price }}</p>
+                                
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#orderDetails{{ order.id }}" aria-expanded="false" aria-controls="orderDetails{{ order.id }}">
+                        Show order details
+                    </button>
+                    <div class="collapse" id="orderDetails{{ order.id }}">
+                        <hr>
+                        <div class="row mb-4 ">
+                            <div class="col-sm-4">
+                                <h3 class="mb-1 billing-title ">Ordered date:</h3>
+                                <p>{{ order.date_ordered }}</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <h3 class="mb-1 billing-title ">Billing amount:</h3>
+                                <p>{{ order.total_amount }}</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <h3 class="mb-1 billing-title">Order Status:</h3>
+                                {% if order.status == 'Cancelled' %}
+                                    <p class="text-danger">{{ order.status }}</p>
+                                {% else %}
+                                    <p>{{ order.status }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-4">
+                                <h3 class="mb-1 billing-title ">Payment Type:</h3>
+                                <p>{{ order.payment_status }}</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <h3 class="billing-title">Shipping Address</h3>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                    
+                                        <p><strong>Name:</strong> {{ order.shipping_address }}</p>
+                                        <p><strong>Mobile:</strong> {{ order.shipping_address }}</p>
+                                        <p><strong>House Name:</strong> {{ order.shipping_address.house_name }}</p>
+                                        <p><strong>District:</strong> {{ order.shipping_address.district }}</p>
+                                        <p><strong>State:</strong> {{ order.shipping_address.state }}</p>
+                                         <p><strong>Pincode:</strong> {{ name }}</p>
+                                  
+                                    </div>
+                                    {% if order.status != 'Cancelled' %}
+                                    <div class="col-sm-6  d-flex justify-content-end align-items-end">
+                                        <form id="cancel-order-form" action="{% url 'cancel_order' order.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm pb-0" onclick="return confirmCancel()">Cancel</button>
+                                        </form>
+                                       
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            No orders found.
+        </div>
+    {% endif %}
+</div>
+
+
+
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination  justify-content-center">
+        {% if orders.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ orders.previous_page_number }}">Previous</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+        {% for i in orders.paginator.page_range %}
+        {% if orders.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if orders.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ orders.next_page_number }}">Next</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<script>
+    function confirmCancel() {
+        if (confirm("Are you sure you want to cancel this order?")) {
+            // If the user clicks "OK" on the confirmation dialog, submit the form
+            document.getElementById("cancel-order-form").submit();
+            return true;
+        } else {
+            // If the user clicks "Cancel" on the confirmation dialog, do nothing
+            return false;
+        }
+    }
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

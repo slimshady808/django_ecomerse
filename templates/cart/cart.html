@@ -1,0 +1,207 @@
+
+    {% extends 'base.html' %}
+    {% load static %}
+    {% block title %}shopping cart  {% endblock %}
+    {% block content %}  
+        <!-- ================ start banner area ================= -->	
+        <!-- <section class="blog-banner-area" id="category">
+            <div class="container h-100">
+                <div class="blog-banner">
+                    <div class="text-center">
+                        <h1>Shopping Cart</h1>
+                        <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                </ol>
+            </nav>
+                    </div>
+                </div>
+        </div>
+        </section> -->
+        <!-- ================ end banner area ================= -->
+    
+       <section class="cart_area">
+            <div class="container">
+                <div class="cart_inner">
+                    {% if messages %}
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-12">
+                          {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              {{ message }}
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                  
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"> </th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart in carts %}
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <div class="media align-items-center">
+                                            {% if cart.variations.exists %}
+                                            {% for vari in cart.variations.all %}
+                                            <img src="{{ vari.image.url }}" alt="{{ cart.product.name }}" class="img-fluid" style="max-width: 100px;">
+                                   
+                                            <!-- <img src="{{ cart.product.image.url }}" alt="{{ cart.product.name }}" class="img-fluid" style="max-width: 100px;"> -->
+                                            {% endfor%}
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td class="product-name">
+                                        <h5 class="mb-0">{{ cart.product.name }}</h5>
+                                        {% if cart.variations.exists %}
+                                        {% for vari in cart.variations.all %}
+                                        {{ vari.get_type_display }}: {{ vari.variation_value }}<br>
+                                        {{vari.stock}}
+                                        {% endfor%}
+                                        {% else %}
+                                        .
+                                        {% endif %}
+                                    </td>
+                                    <td class="product-price">
+                                        <span class="amount">{{ cart.product.price }}</span>
+                                    </td>
+                                    <td class="product-quantity">
+                                        {% if cart.variations.exists %}
+    {% for vari in cart.variations.all %}
+        {% if vari.stock > 0 %}
+            <div class="d-flex align-items-center">
+                <a class="minus-cart btn" vid="{{ vari.id }}" pid="{{ cart.product.id }}"><i class="fas fa-minus-square fa-lg"></i></a>
+                <span id="quantity">{{ cart.quantity }}</span>
+                <a class="plus-cart btn" vid="{{ vari.id }}" pid="{{ cart.product.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
+            </div>
+        {% else %}
+            <div class="out-of-stock-message">Out of Stock</div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+                                     
+                                    </td>
+
+                                
+                                       
+
+                                    {% if cart.variations.exists %}
+                                    {% for vari in cart.variations.all %}
+                                        <td class="product-remove">
+                                            <a href="#" class="remove-cart btn btn-outline-danger" pid="{{ cart.product.id }}" vid=" {{vari.id}}"> 
+                                              <i class="fas fa-trash"></i>
+                                            </a>
+                                          </td>
+
+                                          {% endfor%}
+                                         
+                                          {% endif %}
+                                        <!-- other table cells -->
+                                      
+                                    
+                                   
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+        
+                    <div class="cart-totals">
+                        <h5>Cart Totals</h5>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td class="text-right">$<span id="amount">{{ amount }}</span></td> 
+                                </tr>
+                                <tr>
+                                    <td>Shipping  </td>
+                                    
+                                    <td class="text-right">
+                                        {% if total_amount >= 1500 %}
+                                        <span class="text-success">Free Delivery(70)</span>
+                                        {% else %}
+                                        $ 70
+                                        {% endif %}
+                                      </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td class="text-right"><strong>$ <strong id="total_amount">{{total_amount}}</strong></strong></td>
+                                </tr>
+                                
+
+                            </tbody>
+                        </table>
+                        <a href="{% url 'check_out'%}" class="btn btn-primary">Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    <!--================Cart Area =================-->
+ 
+   <script>
+    
+   </script>
+{% endblock %}
+    
+
+
+
+
+
+
+
+
+
+
+
+   
+
+ 
+
+
+  
+  <!--================End Cart Area =================-->
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,198 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}home  {% endblock %}
+{% block content %}  
+  <main class="site-main">
+    
+    <!--================ Hero banner start =================-->
+    {% comment %} <section class="hero-banner">
+      <div class="container">
+        <div class="row no-gutters align-items-center pt-60px">
+          <div class="col-5 d-none d-sm-block">
+            <div class="hero-banner__img">
+              <img class="img-fluid" src="{% static 'img/home/hero-banner.png'%}" alt="">
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+            <div class="hero-banner__content">
+              <h4>Shop is fun</h4>
+              <h1>Browse Our Premium Product</h1>
+              <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth without morning over third. Their male dry. They are great appear whose land fly grass.</p>
+              <a class="button button-hero" href="#">Browse Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> 
+
+    <section class="hero-banner">
+      <div class="container">
+        <div class="row no-gutters align-items-center pt-60px">
+          <div class="col-12 col-sm-6">
+            <div class="hero-banner__img">
+              <img class="img-fluid" src="{% static 'img/home/bn.jpg'%}" alt="">
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="hero-banner__content">
+              <h1>Experience the Freedom of Wireless1</h1>
+              <p>Find the perfect pair of wireless earbuds or headphones for your lifestyle.</p>
+              <a class="button button-hero" href="#">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>{% endcomment %}
+    
+
+
+    <!--================ Hero banner start =================-->
+    <div id="banner-carousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        {% for banner in banners %}
+          <li data-target="#banner-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+        {% endfor %}
+      </ol>
+    
+      <!-- Slides -->
+      <div class="carousel-inner">
+        {% for banner in banners %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{{ banner.image.url }}" alt="{{ banner.title }}">
+            <div class="carousel-caption">
+              <!-- <h2>{{ banner.title }}</h2> -->
+              <!-- {% if banner.link %} -->
+                <a href="{% url 'category_item' banner.link %}">Shop Now  </a>
+              <!-- {% endif %} -->
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    
+      <!-- Controls -->
+      <a class="carousel-control-prev" href="#banner-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#banner-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+    
+    <!--================ Hero Carousel start =================-->
+   
+    <section class="section-margin mt-0">
+      <div class="owl-carousel owl-theme hero-carousel">
+        {% for category in categories %}
+        <div class="hero-carousel__slide">
+          <img src="{{ category.cat_image.url }}" alt="{{ category.name }}" class="img-fluid">
+          <a href="{% url 'category_item' category.slug %}" class="hero-carousel__slideOverlay">
+            <h3>{{ category.name }}1</h3>
+           
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+   
+    <!--================ Hero Carousel end =================-->
+
+    <!-- ================ trending product section start ================= -->  
+    <section class="section-margin calc-60px">
+      <div class="container">
+        <div class="section-intro pb-60px">
+          <p>Popular Item in the market</p>
+          <h2>Trending <span class="section-intro__style">Product</span></h2>
+        </div>
+        <div class="row">
+
+          {% for product in products %}
+          <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="card text-center card-product">
+              <div class="card-product__img">
+                <img class="card-img" src="{{ product.image.url }}"  alt="{{ product.name }}">
+                <ul class="card-product__imgOverlay d-flex justify-content-center">
+                  <button class="view-product-btn" data-slug="{{ product.slug }}"><i class="ti-search"></i></button>
+
+               
+                 
+                  {% if user.is_authenticated %}
+                <button class="btn btn-sm btn-danger add-wishlist" data-product="{{product.id}}"><i class="fa fa-heart"></i></button>
+                {% else %}
+                
+                <a href="{% url 'log_in' %}" class="btn btn-sm btn-danger " ><i class="fa fa-heart"></i></a>
+                {% endif %}
+
+            
+                
+                </ul>
+              </div>
+              <div class="card-body">
+                <p>{{ product.category.name }}</p>
+                <h4 class="card-product__title"><a href="#">{{ product.name }}</a></h4>
+                <p class="card-product__price">&#8377;{{ product.price }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        
+         
+        </div>
+      </div>
+    </section>
+    <!-- ================ trending product section end ================= -->  
+
+
+    <!-- ================ offer section start ================= --> 
+    {% comment %} <section class="offer" id="parallax-1" data-anchor-target="#parallax-1" data-300-top="background-position: 20px 30px" data-top-bottom="background-position: 0 20px">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-5">
+            <div class="offer__content text-center">
+              <h3>Up To 50% Off</h3>
+              <h4>Winter Sale</h4>
+              <p>Step into the world of smart technology and elevate your lifestyle with our cutting-edge gadgets.</p>
+              <a class="button button--active mt-3 mt-xl-4" href="#">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> {% endcomment %}
+   
+    <!-- <div class="offer__content text-center pb-0  ">
+      <div class="offer-tag"></div>
+      <div class="offer-image" style="background-image: url('{% static 'img/home/bn1.jpg' %}'); height: 400px; background-position: center; background-repeat: no-repeat; background-size: cover;">
+      </div>
+      
+      </div>
+    </div> -->
+    
+
+
+
+
+    <!-- ================ offer section end ================= --> 
+
+
+
+    
+
+  </main>
+
+
+  <script>
+    const viewProductBtns = document.querySelectorAll('.view-product-btn');
+    viewProductBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const slug = btn.dataset.slug;
+            window.location.href = `/products/${slug}/`;
+        });
+    });
+</script>
+
+
+{% endblock %}
+ 

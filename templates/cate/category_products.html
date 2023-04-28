@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}category  {% endblock %}
+{% block content %}  
+
+<section class="lattest-product-area pb-40 category-list">
+  <div class="container">
+    <h1 class="text-center mb-5">{{ category }}</h1>
+    <div class="row">
+      {% for product in products %}
+      <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+        <div class="card text-center card-product">
+          <div class="card-product__img">
+            <a href="{% url 'view_item' product.slug %}">
+              <img class="card-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+            </a>
+            <ul class="card-product__imgOverlay  d-flex justify-content-center">
+            
+            
+           
+                {% if user.is_authenticated %}
+                <button class="btn btn-sm btn-danger add-wishlist" data-product="{{product.id}}"><i class="fa fa-heart"></i></button>
+                {% else %}
+                <a href="{% url 'log_in' %}" class="btn btn-sm btn-danger " ><i class="fa fa-heart"></i></a>
+
+              
+                {% endif %}
+         
+            </ul>
+          </div>
+          <div class="card-body">
+            <p>{{ product.category.name }}</p>
+            <h4 class="card-product__title"><a href="{% url 'view_item' product.slug %}">{{ product.name }}</a></h4>
+            <p class="card-product__price">&#8377;{{ product.price }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+{% if products.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination  justify-content-center">
+    {% if products.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ products.previous_page_number }}">&laquo;</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">&laquo;</span>
+    </li>
+    {% endif %}
+    {% for i in products.paginator.page_range %}
+      {% if products.number == i %}
+      <li class="page-item active">
+        <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+      </li>
+      {% endif %}
+    {% endfor %}
+    {% if products.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ products.next_page_number }}">&raquo;</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">&raquo;</span>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+
+
+
+
+
+
+<script>
+  const viewProductBtns = document.querySelectorAll('.view-product-btn');
+  viewProductBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+          const slug = btn.dataset.slug;
+          window.location.href = `/products/${slug}/`;
+      });
+  });
+
+
+
+
+
+  
+</script>
+{% endblock %}
