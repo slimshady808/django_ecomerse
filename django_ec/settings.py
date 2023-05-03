@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['13.211.190.98','127.0.0.1']
 
 
-# Application definition
+# Application definitions
 
 INSTALLED_APPS = [
     # 'django_jasmine',
