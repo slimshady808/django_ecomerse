@@ -89,12 +89,12 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                     
-                                        <p><strong>Name:</strong> {{ order.shipping_address }}</p>
-                                        <p><strong>Mobile:</strong> {{ order.shipping_address }}</p>
+                                        <p><strong>Name:</strong> {{ order.shipping_address.name }}</p>
+                                        <p><strong>Mobile:</strong> {{ order.shipping_address.mobile }}</p>
                                         <p><strong>House Name:</strong> {{ order.shipping_address.house_name }}</p>
                                         <p><strong>District:</strong> {{ order.shipping_address.district }}</p>
                                         <p><strong>State:</strong> {{ order.shipping_address.state }}</p>
-                                         <p><strong>Pincode:</strong> {{ name }}</p>
+                                        <p><strong>Pincode:</strong> {{ order.shipping_address.pincode }}</p>
                                   
                                     </div>
                                     {% if order.status != 'Cancelled' %}

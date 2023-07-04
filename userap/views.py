@@ -112,7 +112,7 @@ class ActivateAccountView(View):
             return redirect ('log_in')
         return render (request,'activatefail.html')
 #=========================================================================  
-# user sign-out
+# user sign-out:
 def sign_out(request):
     if request.user.is_authenticated:
         auth.logout(request)
@@ -313,28 +313,26 @@ from django.shortcuts import render
 
 
 
+
+
 import json
 
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-id')
-    
+
+    for order in orders:
+        shipping_address = json.loads(order.shipping_address)
+        order.shipping_address = shipping_address
+
     paginator = Paginator(orders, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # convert shipping_address JSONField data to dictionary
-    for order in orders:
-        order.shipping_address = json.loads(order.shipping_address)
+    context = {
+        'orders': page_obj,
+    }
 
-   
-
-        context = {
-            'orders': page_obj,
-            
-          }
     return render(request, 'order_history.html', context)
-
-
 
 
 

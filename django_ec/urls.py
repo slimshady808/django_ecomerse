@@ -23,8 +23,8 @@ from django.urls import *
 urlpatterns = [
     
 
-    # path('jet/dashboard/',include('jet.dashboard.urls','jet-dashboard')),
-    # path('jet/',include('jet.urls')),
+    path('jet/dashboard/',include('jet.dashboard.urls','jet-dashboard')),
+    path('jet/',include('jet.urls')),
   
     path('admin/', admin.site.urls),
     path('admin1/',include('admin_panel.urls')),

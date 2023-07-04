@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'orderap',
     'cartap',
     'categoryap',
-    # 'jet.dashboard',
-    # 'jet',
+    'jet.dashboard',
+    'jet',
     'admin_panel',
     'productap',
     'userap',
@@ -134,8 +134,8 @@ USE_TZ = True
 # sending emails
 # 'smtpout.secureserver.net'  'smtp.gmail.com' 
 EMAIL_HOST= 'smtp.gmail.com' 
-EMAIL_HOST_USER='ecomvalidation@gmail.com'
-EMAIL_HOST_PASSWORD='phsockbksbbjoqve'
+EMAIL_HOST_USER='gadgetgalleryvalidation@gmail.com'
+EMAIL_HOST_PASSWORD='zjuocyqtpiwxugpv'
 EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
