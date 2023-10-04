@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['13.239.57.197','127.0.0.1','localhost']
 # Application definitions
 
 INSTALLED_APPS = [
-   'whitenoise.runserver_nostatic',
+#    'whitenoise.runserver_nostatic',
     # 'django_jasmine',
     'import_export',
     'sales',
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 #CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
+     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,7 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'whitenoise.middleware.WhiteNoiseMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'django_ec.urls'
@@ -162,7 +163,7 @@ EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_URL = 'static/'
+
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'static')
 ]
