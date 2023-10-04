@@ -29,6 +29,7 @@ from orderap.models import Order
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Address
 from .forms import AddressForm
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 #log-in user by email and password
@@ -265,23 +266,61 @@ def change_password(request):
 #=========================================
 @login_required
 def user_address(request):
-    user_details = UserDetails.objects.get(user=request.user)
-    addresses = Address.objects.filter(user_details=user_details)
-    return render(request, 'user/user_address.html', {'addresses': addresses})
+    try:
+        # Attempt to get the UserDetails object for the logged-in user
+        user_details = UserDetails.objects.get(user=request.user)
+        
+        # If the UserDetails object exists, filter the addresses for that user
+        addresses = Address.objects.filter(user_details=user_details)
+        
+    except ObjectDoesNotExist:
+        # Handle the case where UserDetails does not exist for the user
+        user_details = None
+        addresses = []
+
+    return render(request, 'user/user_address.html', {'addresses': addresses, 'user_details': user_details})
+
+from django.contrib.auth.decorators import login_required
+from .models import UserDetails, Address
+from .forms import AddressForm
+from django.shortcuts import render, redirect
 
 @login_required
 def add_address(request):
+    try:
+        user_details = UserDetails.objects.get(user=request.user)
+    except UserDetails.DoesNotExist:
+        user_details = None
+
     if request.method == 'POST':
         form = AddressForm(request.POST)
         if form.is_valid():
             address = form.save(commit=False)
-            user_details = UserDetails.objects.get(user=request.user)
+
+            # If user_details is None, create a new instance
+            if user_details is None:
+                user_details = UserDetails(user=request.user)
+                # Populate user_details with data from the AddressForm
+                user_details.full_name = form.cleaned_data['name']
+                user_details.mobile_number = form.cleaned_data['mobile']
+                user_details.save()
+
             address.user_details = user_details
             address.save()
             return redirect('user_address')
     else:
-        form = AddressForm()
+        # If user_details exists, populate the AddressForm with its data
+        initial_data = {}
+        if user_details:
+            initial_data['name'] = user_details.full_name
+            initial_data['mobile'] = user_details.mobile_number
+        form = AddressForm(initial=initial_data)
+
     return render(request, 'user/add_address.html', {'form': form})
+
+
+
+
 
 
 @require_POST

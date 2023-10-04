@@ -107,8 +107,15 @@ def check_out_add_address(request):
 
 def check_out(request):
    user = request.user
-   user_details = UserDetails.objects.get(user=user)
-   addresses = Address.objects.filter(user_details=user_details)
+   try:
+    user_details = UserDetails.objects.get(user=user)
+    addresses = Address.objects.filter(user_details=user_details)
+   except UserDetails.DoesNotExist:
+       messages.warning(request,'please add address before check out')
+       return redirect('show_cart')
+    # addresses=[]
+       
+   
    cart_items = cart.objects.filter(user=user)
    amount = 0
    shipping_amount = 70

@@ -34,7 +34,7 @@
         <h1 class="h2">Address</h1>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         {% for address in addresses %}
         <div class="col-md-4">
           <div class="card" style="margin-bottom: 20px;">
@@ -50,8 +50,38 @@
           </div>
         </div>
         {% endfor %}
-      </div>
+      </div> -->
 
+
+          <div class="row">
+            {% if addresses %}
+                {% for address in addresses %}
+                <div class="col-md-4">
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ address.name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ address.mobile }}</h6>
+                            <p class="card-text">{{ address.house_name }} {{ address.street }}, {{ address.district }}, {{ address.state }} {{ address.pincode }}</p>
+                            <form action="{% url 'address_delete' address.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12 text-center">
+                  <div class="col-md-12 text-center">
+                    <div class="alert alert-info" role="alert">
+                        <strong>No addresses saved.</strong>
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+          </div>
+    
+    
       <a class="btn btn-primary" href="{% url 'user_dashboard' %}">Back</a>
     </main>
   </div>

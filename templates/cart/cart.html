@@ -29,17 +29,23 @@
                       <div class="row">
                         <div class="col-md-12">
                           {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                              {{ message }}
-                            </div>
+                          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            {% if message.tags == 'error' %}
+                            <strong>Error:</strong> {{ message }}
+                            {% else %}
+                            {{ message }}
+                            {% endif %}
+                          </div>
                           {% endfor %}
                         </div>
                       </div>
                     </div>
-                  {% endif %}
+                    {% endif %}
+                    
+                    
                   
 
                     <div class="table-responsive">
@@ -83,18 +89,18 @@
                                     </td>
                                     <td class="product-quantity">
                                         {% if cart.variations.exists %}
-    {% for vari in cart.variations.all %}
-        {% if vari.stock > 0 %}
-            <div class="d-flex align-items-center">
-                <a class="minus-cart btn" vid="{{ vari.id }}" pid="{{ cart.product.id }}"><i class="fas fa-minus-square fa-lg"></i></a>
-                <span id="quantity">{{ cart.quantity }}</span>
-                <a class="plus-cart btn" vid="{{ vari.id }}" pid="{{ cart.product.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
-            </div>
-        {% else %}
-            <div class="out-of-stock-message">Out of Stock</div>
-        {% endif %}
-    {% endfor %}
-{% endif %}
+                                        {% for vari in cart.variations.all %}
+                                            {% if vari.stock > 0 %}
+                                                <div class="d-flex align-items-center">
+                                                    <a class="minus-cart btn" vid="{{ vari.id }}" pid="{{ cart.product.id }}"><i class="fas fa-minus-square fa-lg"></i></a>
+                                                    <span id="quantity">{{ cart.quantity }}</span>
+                                                    <a class="plus-cart btn" vid="{{ vari.id }}" pid="{{ cart.product.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
+                                                </div>
+                                            {% else %}
+                                                <div class="out-of-stock-message">Out of Stock</div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
 
                                      
                                     </td>
