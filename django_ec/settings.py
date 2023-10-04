@@ -25,12 +25,15 @@ SECRET_KEY = 'django-insecure-#y1a_quc_e2-dp1o%)^pbhza299enoi_o+usrcat220jm5)8-d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.211.190.98','127.0.0.1']
+# ALLOWED_HOSTS = ['13.211.190.98','127.0.0.1']
+
+ALLOWED_HOSTS = ['13.211.190.98','localhost','127.0.0.1','*', 'localhost.localdomain','gadgetgallery.online','www.gadgetgallery.online']
 
 
 # Application definitions
 
 INSTALLED_APPS = [
+   'whitenoise.runserver_nostatic',
     # 'django_jasmine',
     'import_export',
     'sales',
@@ -64,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'django_ec.urls'
@@ -158,7 +162,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'')
 MEDIA_URL = '/media/'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Default primary key field type
