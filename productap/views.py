@@ -73,7 +73,10 @@ def view_item(request, slug):
 
 def check_out_add_address(request):
     user = request.user
-    user_details = UserDetails.objects.get(user=user)
+    try:
+        user_details = UserDetails.objects.get(user=user)
+    except UserDetails.DoesNotExist:
+        user_details=None
     if request.method == 'POST':
         name = request.POST.get('name')
         mobile = request.POST.get('mobile')
@@ -82,6 +85,12 @@ def check_out_add_address(request):
         district = request.POST.get('district')
         state = request.POST.get('state')
         pincode = request.POST.get('pincode')
+        
+        if user_details is None:
+            user_details=UserDetails(user=request.user)
+            user_details.full_name=name
+            user_details.mobile_number=mobile
+            user_details.save()
         if not (name and mobile and house_name and street and district and state and pincode):
             messages.error(request, 'Please fill in all required fields.')
             return redirect('check_out')
@@ -111,9 +120,9 @@ def check_out(request):
     user_details = UserDetails.objects.get(user=user)
     addresses = Address.objects.filter(user_details=user_details)
    except UserDetails.DoesNotExist:
-       messages.warning(request,'please add address before check out')
-       return redirect('show_cart')
-    # addresses=[]
+    #    messages.warning(request,'please add address before check out')
+    #    return redirect('show_cart')
+         addresses=[]
        
    
    cart_items = cart.objects.filter(user=user)
