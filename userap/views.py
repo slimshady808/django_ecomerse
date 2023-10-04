@@ -75,7 +75,7 @@ def sign_up(request):
                 email_subject='Activate your Account'
                 message=render_to_string('email_signup/activate.html',{
                     'user':user,
-                    'domain': '//127.0.0.1:8000/',
+                    'domain': 'https://gadgetgallery.online',
                     'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                     'token':generate_token.make_token(user)
                 })
