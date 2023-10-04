@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure-#y1a_quc_e2-dp1o%)^pbhza299enoi_o+usrcat220jm5)8-d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['13.211.190.98','127.0.0.1']
+ALLOWED_HOSTS = ['13.239.57.197','127.0.0.1','localhost']
 
-ALLOWED_HOSTS = ['13.211.190.98','localhost','127.0.0.1','*', 'localhost.localdomain','gadgetgallery.online','www.gadgetgallery.online']
+# ALLOWED_HOSTS = ['13.211.190.98','localhost','127.0.0.1','*', 'localhost.localdomain','gadgetgallery.online','www.gadgetgallery.online']
 
 
 # Application definitions
@@ -96,13 +96,23 @@ WSGI_APPLICATION = 'django_ec.wsgi.application'
 
 DATABASES = {
      'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ecom_new',
-        'USER': 'postgres',
+        'USER': 'my_user',
         'PASSWORD':'12345',
         'HOST': 'localhost'
     }
 }
+
+# DATABASES = {
+#      'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ecom_new',
+#         'USER': 'postgres',
+#         'PASSWORD':'12345',
+#         'HOST': 'localhost'
+#     }
+# }
 
 
 # Password validation
