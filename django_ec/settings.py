@@ -14,13 +14,18 @@ from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#y1a_quc_e2-dp1o%)^pbhza299enoi_o+usrcat220jm5)8-d'
+SECRET_KEY =os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -95,25 +100,25 @@ WSGI_APPLICATION = 'django_ec.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ecom_new',
-        'USER': 'my_user',
-        'PASSWORD':'12345',
-        'HOST': 'localhost'
-    }
-}
-
 # DATABASES = {
 #      'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'ecom_new',
-#         'USER': 'postgres',
+#         'USER': 'my_user',
 #         'PASSWORD':'12345',
 #         'HOST': 'localhost'
 #     }
 # }
+
+DATABASES = {
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD':os.getenv('PASSWORD'),
+        'HOST': 'localhost'
+    }
+}
 
 
 # Password validation
@@ -148,12 +153,12 @@ USE_TZ = True
 
 # sending emails
 # 'smtpout.secureserver.net'  'smtp.gmail.com' 
-EMAIL_HOST= 'smtp.gmail.com' 
-EMAIL_HOST_USER='gadgetgalleryvalidation@gmail.com'
-EMAIL_HOST_PASSWORD='zjuocyqtpiwxugpv'
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST= os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT=os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS=os.getenv('EMAIL_USE_TLS')
+EMAIL_BACKEND=os.getenv('EMAIL_BACKEND')
 
 
 
