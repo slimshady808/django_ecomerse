@@ -30,13 +30,21 @@ Check out the live demo of GadgetGallery at [gadgetgallery](https://gadgetgaller
 
 ## Installation
 
+Before you begin, ensure you have the following prerequisites:
+
+-  Make sure you have Python installed on your  system. You can download and install Python from the official website: https://www.python.org/
+
+- Install Postgres on your system. You can    download and install Postgres from the official website: https://www.postgresql.org/
+
+
+
 To run GadgetGallery on your local machine, follow these steps:
 
 1. Clone this repository:
 
 git clone 
 ```
-https://github.com/yourusername/GadgetGallery.git
+https://github.com/slimshady808/django_ecomerse.git
 ```
 2. Create a virtual environment:
 ```
@@ -81,6 +89,7 @@ python manage.py runserver
 4. Proceed to checkout, providing your delivery information and selecting PayPal as your payment method.
 5. Complete the payment process and receive an order confirmation.
 
+That's it! You're all set to run the ecomerse website with Django and Postgres. Happy learning..  
 
 ## ScreenShots
 
