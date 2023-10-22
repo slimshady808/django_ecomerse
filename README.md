@@ -9,6 +9,7 @@ GadgetGallery is an educational Django project that simulates an e-commerce webs
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [ScreenShots](#ScreenShots)
 
 
 ## Demo
@@ -79,3 +80,9 @@ python manage.py runserver
 3. Add your desired products to your cart.
 4. Proceed to checkout, providing your delivery information and selecting PayPal as your payment method.
 5. Complete the payment process and receive an order confirmation.
+
+
+## ScreenShots
+
+
+![Homepage](screenshots/home.jpg)
