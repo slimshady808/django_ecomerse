@@ -86,3 +86,9 @@ python manage.py runserver
 
 
 ![Homepage](screenshots/home.jpg)
+
+
+![Homepage](screenshots/product.jpg)
+
+
+![Homepage](screenshots/cart.jpg)
