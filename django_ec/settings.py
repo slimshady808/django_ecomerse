@@ -30,7 +30,7 @@ SECRET_KEY =os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.239.57.197','127.0.0.1','localhost','gadgetgallery.online','www.gadgetgallery.online']
+ALLOWED_HOSTS = ['16.170.159.231','127.0.0.1','localhost','gadgetgallery.online','www.gadgetgallery.online']
 
 # ALLOWED_HOSTS = ['13.211.190.98','localhost','127.0.0.1','*', 'localhost.localdomain','gadgetgallery.online','www.gadgetgallery.online']
 
