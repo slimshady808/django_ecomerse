@@ -100,25 +100,25 @@ WSGI_APPLICATION = 'django_ec.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#      'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'ecom_new',
-#         'USER': 'my_user',
-#         'PASSWORD':'12345',
-#         'HOST': 'localhost'
-#     }
-# }
-
 DATABASES = {
      'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('NAME'),
-        'USER': os.getenv('USER'),
-        'PASSWORD':os.getenv('PASSWORD'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django_ec',
+        'USER': 'akshay_ec',
+        'PASSWORD':'123456',
         'HOST': 'localhost'
     }
 }
+
+# DATABASES = {
+#      'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('NAME'),
+#         'USER': os.getenv('USER'),
+#         'PASSWORD':os.getenv('PASSWORD'),
+#         'HOST': 'localhost'
+#     }
+# }
 
 
 # Password validation
